@@ -1,0 +1,125 @@
+═══════════════════════════════════════════════════════════════════
+  SCRIPT PARA EMAIL AUTOMÁTICO - Google Forms
+  Proyecto: Coeficiente Kappa - Diacua Viva
+═══════════════════════════════════════════════════════════════════
+
+🔧 INSTRUCCIONES PARA INSTALAR:
+
+1. Abre tu Google Form
+2. Clic en los 3 puntos (⋮) → "Editor de secuencias de comandos"
+3. Borra cualquier código que haya
+4. Copia y pega el código de abajo
+5. Haz clic en "Guardar" (💾)
+6. Haz clic en "Activadores" (⏰) en el menú izquierdo
+7. Clic en "+ Agregar activador"
+8. Configura:
+   - Función: onFormSubmit
+   - Evento: "Del formulario" → "Al enviar formulario"
+9. Autoriza permisos cuando lo pida
+
+═══════════════════════════════════════════════════════════════════
+📧 CÓDIGO DEL SCRIPT
+═══════════════════════════════════════════════════════════════════
+
+function onFormSubmit(e) {
+  try {
+    // Obtener respuestas del formulario
+    var respuestas = e.values;
+    
+    // Ajusta estos índices según las columnas de tu sheet
+    // Columna B = índice 1, C = 2, etc.
+    var email = respuestas[5];  // Ajustar según tu columna EMAIL (F = índice 5)
+    var empresa = respuestas[1]; // Ajustar según tu columna EMPRESA (B = índice 1)
+    var representante = respuestas[2]; // Columna C
+    
+    // Asunto del email
+    var asunto = "✅ Solicitud Recibida - Protocolo Coeficiente Kappa";
+    
+    // Cuerpo del email (HTML)
+    var mensaje = `
+      <html>
+        <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 2px solid #4CAF50; border-radius: 10px;">
+            
+            <h2 style="color: #2E7D32; text-align: center;">🔬 DIACUA VIVA</h2>
+            <h3 style="color: #1565C0; text-align: center;">Protocolo de Soberanía Empresarial</h3>
+            
+            <hr style="border: 1px solid #E0E0E0;">
+            
+            <p>Estimado/a <strong>${representante}</strong>,</p>
+            
+            <p>Hemos recibido exitosamente la solicitud de ingreso de <strong>${empresa}</strong> al programa piloto de medición del <strong>Coeficiente Kappa (κ)</strong>.</p>
+            
+            <div style="background-color: #F1F8E9; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <h4 style="color: #33691E; margin-top: 0;">📋 Próximos Pasos:</h4>
+              <ol style="margin: 10px 0;">
+                <li>Nuestro equipo evaluará su perfil empresarial</li>
+                <li>Le contactaremos en los próximos <strong>5 días hábiles</strong></li>
+                <li>Si es seleccionado, recibirá acceso al protocolo completo</li>
+              </ol>
+            </div>
+            
+            <p style="font-style: italic; color: #616161;">
+              "La soberanía empresarial no se decreta, se mide. El Coeficiente κ es su brújula hacia la vitalidad exportadora."
+            </p>
+            
+            <hr style="border: 1px solid #E0E0E0;">
+            
+            <p style="font-size: 12px; color: #757575;">
+              <strong>Contacto:</strong><br>
+              📧 kappaempresarial@gmail.com<br>
+              🌐 <a href="https://diacua-viva.vercel.app/">diacua-viva.vercel.app</a><br>
+              📍 Piedemonte Llanero, Colombia
+            </p>
+            
+            <p style="font-size: 11px; color: #9E9E9E; text-align: center; margin-top: 20px;">
+              Este es un mensaje automático. Por favor no responda a este correo.<br>
+              Para consultas, escriba a: kappaempresarial@gmail.com
+            </p>
+            
+          </div>
+        </body>
+      </html>
+    `;
+    
+    // Enviar email
+    MailApp.sendEmail({
+      to: email,
+      subject: asunto,
+      htmlBody: mensaje,
+      name: "Diacua Viva - Protocolo Kappa"
+    });
+    
+    Logger.log("Email enviado exitosamente a: " + email);
+    
+  } catch (error) {
+    Logger.log("Error al enviar email: " + error);
+  }
+}
+
+═══════════════════════════════════════════════════════════════════
+⚠️ IMPORTANTE: AJUSTAR ÍNDICES DE COLUMNAS
+═══════════════════════════════════════════════════════════════════
+
+El array 'respuestas' empieza en índice 0:
+- respuestas[0] = Timestamp (Columna A)
+- respuestas[1] = EMPRESA (Columna B)
+- respuestas[2] = REPRESENTANTE LEGAL (Columna C)
+- respuestas[3] = NUMERO DE CELULAR (Columna D)
+- respuestas[4] = WEB (Columna E)
+- respuestas[5] = EMAIL (Columna F)
+- respuestas[6] = NUMERO DE EMPLEADOS (Columna G)
+
+Verifica en tu sheet y ajusta los números en el código.
+
+═══════════════════════════════════════════════════════════════════
+✅ PARA PROBAR:
+
+1. Después de instalar el script
+2. Envía una respuesta de prueba en el Form
+3. Revisa la bandeja de entrada del email ingresado
+4. Si no llega, revisa:
+   - Extensiones → Apps Script → Ejecuciones (ver errores)
+   - Carpeta de SPAM del email
+
+═══════════════════════════════════════════════════════════════════
