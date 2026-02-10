@@ -274,8 +274,8 @@ export default function HomePage() {
                 <div className="text-6xl">💡</div>
                 <div className="flex-1">
                   <p className="text-lg font-semibold text-slate-800 mb-3">
-                    "Descubrimos que el 23% de nuestra energía se evaporaba en procesos que nadie entendía. 
-                    Ajustamos en 60 días. Nuestro κ pasó de 0.8 a 1.6."
+                    &ldquo;Descubrimos que el 23% de nuestra energía se evaporaba en procesos que nadie entendía. 
+                    Ajustamos en 60 días. Nuestro κ pasó de 0.8 a 1.6.&rdquo;
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
