@@ -1,0 +1,563 @@
+═══════════════════════════════════════════════════════════════════
+  GUÍA DE IMPLEMENTACIÓN: FÓRMULAS COEFICIENTE KAPPA (κ)
+  Google Sheets - Proyecto Diacua Viva
+  Versión 2.0 - Febrero 2026 (18 Preguntas + Alertas Categóricas)
+═══════════════════════════════════════════════════════════════════
+
+📊 ESTRUCTURA DEL SHEET ACTUALIZADO
+───────────────────────────────────────────────────────────────────
+Columna | Contenido                        | Escala
+───────────────────────────────────────────────────────────────────
+A       | Timestamp                        | -
+B       | EMPRESA                          | -
+C       | REPRESENTANTE LEGAL              | -
+D       | NUMERO DE CELULAR CONTACTO       | -
+E       | WEB                              | -
+F       | EMAIL                            | -
+G       | NUMERO DE EMPLEADOS              | -
+───────────────────────────────────────────────────────────────────
+💡 BLOQUE A - ESTRUCTURA (Escala 0-4)
+───────────────────────────────────────────────────────────────────
+H       | P1 - Fluidez Organizacional      | 0-4
+I       | P2 - Adaptabilidad a la Plaza    | 0-4
+J       | P3 - Simetría Asertiva          | 0-4
+───────────────────────────────────────────────────────────────────
+💡 BLOQUE B - SUBJETIVIDAD (Escala 0-4)
+───────────────────────────────────────────────────────────────────
+K       | P4 - Sentido de Obra             | 0-4
+L       | P5 - Identidad Territorial       | 0-4
+M       | P6 - Conexión de Mercado         | 0-4
+───────────────────────────────────────────────────────────────────
+💡 BLOQUE C - VISIÓN (Escala 0-4)
+───────────────────────────────────────────────────────────────────
+N       | P7 - Realización Personal        | 0-4
+O       | P8 - Reacción Creativa           | 0-4
+P       | P9 - Valor de Marca              | 0-4
+───────────────────────────────────────────────────────────────────
+⚠️ BLOQUE D - FRICCIÓN (Escala 1-5)
+───────────────────────────────────────────────────────────────────
+Q       | P10 - Esquema Obstructor         | 1-5
+R       | P11 - Parálisis por Desajuste    | 1-5
+S       | P12 - Silencio de Entropía       | 1-5
+T       | P13 - Crisis de Identidad        | 1-5
+U       | P14 - Trampa de Commodity        | 1-5
+───────────────────────────────────────────────────────────────────
+🔍 BLOQUE R - REFUERZO/PATRIMONIO PERCIBIDO (Escala 1-5)
+───────────────────────────────────────────────────────────────────
+V       | P15 - Condiciones de Aplicación  | 1-5
+W       | P16 - Mejor Beneficio Recibido   | 1-5
+X       | P17 - Tipo de Pregunta Deseada   | 1-5
+Y       | P18 - Honestidad de Respuestas   | 1-5
+═══════════════════════════════════════════════════════════════════
+
+
+🔧 PASO 1: AGREGAR COLUMNAS DE CÁLCULO
+═══════════════════════════════════════════════════════════════════
+
+En la FILA 1 (headers), agrega estos títulos:
+
+Z1:  A_Estructura
+AA1: B_Subjetividad
+AB1: C_Visión
+AC1: D_Fricción
+AD1: R_Patrimonio
+AE1: Potencia_Total
+AF1: Base_Fricción
+AG1: Kappa_κ
+AH1: Nivel
+AI1: Confianza_Datos
+AJ1: Alerta_Crítica
+AK1: Arquetipo_Riesgo
+
+
+🔧 PASO 2: COPIAR FÓRMULAS EN FILA 2 (VERSIÓN ACTUALIZADA 2.0)
+═══════════════════════════════════════════════════════════════════
+
+──────────────────────────────────────────────────────────────────
+📊 SUMAS POR BLOQUE
+──────────────────────────────────────────────────────────────────
+
+Columna Z2 (A_Estructura):
+=SUM(H2:J2)
+📌 Rango: 0-12 (3 preguntas × 0-4)
+
+Columna AA2 (B_Subjetividad):
+=SUM(K2:M2)
+📌 Rango: 0-12 (3 preguntas × 0-4)
+
+Columna AB2 (C_Visión):
+=SUM(N2:P2)
+📌 Rango: 0-12 (3 preguntas × 0-4)
+
+Columna AC2 (D_Fricción):
+=SUM(Q2:U2)
+📌 Rango: 5-25 (5 preguntas × 1-5)
+
+Columna AD2 (R_Patrimonio):
+=SUM(V2:Y2)
+📌 Rango: 4-20 (4 preguntas × 1-5)
+
+──────────────────────────────────────────────────────────────────
+🧮 CÁLCULOS KAPPA
+──────────────────────────────────────────────────────────────────
+
+Columna AE2 (Potencia_Total):
+=Z2+AA2+AB2-AC2-AD2
+📌 Numerador de κ: (A+B+C) - (D+R)
+
+Columna AF2 (Base_Fricción):
+=AC2+AD2
+📌 Denominador de κ: (D+R)
+
+Columna AG2 (Kappa_κ):
+=SI(AF2=0;"ERROR:DIVISIÓN_CERO";AE2/AF2)
+📌 Fórmula: κ = [(A+B+C)-(D+R)] / (D+R)
+
+⚠️ VERIFICACIÓN CRÍTICA:
+- Si AG2 muestra "ERROR", revisar que AF2 > 0
+- Rango esperado de κ: entre -1.0 y 3.0
+- Si κ > 3 o κ < -1.5, revisar datos de entrada
+
+──────────────────────────────────────────────────────────────────
+🏆 CLASIFICACIONES Y ALERTAS
+──────────────────────────────────────────────────────────────────
+
+Columna AH2 (Nivel):
+=SI(AG2="ERROR:DIVISIÓN_CERO";"⚠️ REVISAR DATOS";
+SI(AG2<-0.5;"🔴 COLAPSO CRÍTICO";
+SI(AG2<0;"🟠 CRISIS OPERATIVA";
+SI(AG2<0.5;"🟡 PRECARIO";
+SI(AG2<1;"⚪ EQUILIBRIO FRÁGIL";
+SI(AG2<1.4;"🥉 BRONCE - Organismo en Flujo";
+SI(AG2<1.8;"🥈 PLATA - Potencia Identitaria";"🥇 ORO - Soberanía Exportadora")))))))
+
+📌 Umbrales:
+  κ < -0.5  → Colapso (fricción supera potencia dramáticamente)
+  -0.5 ≤ κ < 0    → Crisis (fricción mayor que potencia)
+  0 ≤ κ < 0.5     → Precario (potencia = fricción)
+  0.5 ≤ κ < 1     → Equilibrio frágil
+  1 ≤ κ < 1.4     → Bronce (potencia supera fricción)
+  1.4 ≤ κ < 1.8   → Plata (potencia sólida)
+  κ ≥ 1.8         → Oro (excelencia organizacional)
+
+Columna AI2 (Confianza_Datos):
+=SI(AD2<=8;"✅ DATOS CONFIABLES";
+SI(AD2<=12;"⚠️ CONFIANZA MEDIA - Revisar contexto";
+SI(AD2<=16;"🟠 BAJA CONFIANZA - Entrevista recomendada";
+"🔴 DATOS SOSPECHOSOS - No usar para decisiones críticas")))
+
+📌 Interpretación del Bloque R (Patrimonio Percibido):
+  R ≤ 8:  Excelente contexto de aplicación
+  9-12:   Contexto aceptable, validar algunas respuestas
+  13-16:  Contexto cuestionable, sesgo probable
+  R ≥ 17: Datos poco confiables, reaplicar cuestionario
+
+Columna AJ2 (Alerta_Crítica):
+=SI(Q2>=4;"⚠️ Esquema Obstructor | ";"")&
+SI(R2>=4;"⚠️ Parálisis Desajuste | ";"")&
+SI(S2>=4;"🔥 Silencio Entropía (Burnout) | ";"")&
+SI(T2>=4;"⚠️ Crisis Identidad | ";"")&
+SI(U2>=4;"⚠️ Trampa Commodity";"")
+
+📌 Detecta fricciones críticas (puntaje ≥4 en escala 1-5)
+
+Columna AK2 (Arquetipo_Riesgo):
+=SI(ESNUMERO(AG2);
+SI(Y(AG2>=1.4;Z2<6;AB2>=9;AC2<10);"🦄 Unicornio Caótico - Alto Riesgo";
+SI(Y(AG2>=1.4;Z2>=9;AA2>=9;AB2>=9);"🏛️ Institución Sólida - Bajo Riesgo";
+SI(Y(AG2<1;AA2<6;AB2<7;AC2>=15);"🧟 Commodity Zombie - Crítico";
+SI(Y(AG2<1;Z2>=9;AA2>=9;AB2<7);"🎭 Artista Incomprendido - Medio Riesgo";
+SI(Y(AG2<0;Z2>=9;AC2>=18);"🐘 Elefante Blanco - Terminal";
+"📊 Revisar Manualmente")))));
+"❓ Datos Incompletos")
+
+📌 Arquetipos organizacionales basados en patrones de κ y bloques
+
+
+🔧 PASO 3: COPIAR HACIA ABAJO
+═══════════════════════════════════════════════════════════════════
+
+1. Selecciona las celdas Z2:AK2
+2. Copia (Ctrl+C)
+3. Selecciona desde Z3 hasta la última fila con datos
+4. Pega (Ctrl+V)
+
+Las fórmulas se ajustarán automáticamente (Z3, Z4, Z5, etc.)
+
+⚠️ IMPORTANTE: Verifica que las columnas V, W, X, Y contengan
+las respuestas de P15, P16, P17, P18 del Google Form antes de aplicar fórmulas.
+
+
+═══════════════════════════════════════════════════════════════════
+📈 HOJA DE ANÁLISIS: "Dashboard_Kappa"
+═══════════════════════════════════════════════════════════════════
+
+Crea una NUEVA HOJA llamada: Dashboard_Kappa
+
+
+🔸 SECCIÓN 1: ESTADÍSTICAS GENERALES
+───────────────────────────────────────────────────────────────────
+
+A1: MÉTRICA
+B1: VALOR
+
+A2: Total Empresas Participantes
+B2: =COUNTA('Form kappa'!B2:B)
+
+A3: Kappa Promedio (κ̄)
+B3: =IFERROR(PROMEDIO('Form kappa'!AA2:AA);"Esperando datos reales")
+
+A4: Empresas en Crisis (κ<0)
+B4: =CONTAR.SI('Form kappa'!AA2:AA;"<0")
+
+A5: Empresas Precarias (0≤κ<0.5)
+B5: =CONTAR.SI.CONJUNTO('Form kappa'!AA2:AA;">="0";'Form kappa'!AA2:AA;"<0.5")
+
+A6: Empresas Aceptables (0.5≤κ<1)
+B6: =CONTAR.SI.CONJUNTO('Form kappa'!AA2:AA;">="0.5";'Form kappa'!AA2:AA;"<1")
+
+A7: Empresas Bronce (1.1≤κ<1.4)
+B7: =CONTAR.SI.CONJUNTO('Form kappa'!AA2:AA;">="1.1";'Form kappa'!AA2:AA;"<1.4")
+
+A8: Empresas Plata (1.4≤κ<1.8)
+B8: =CONTAR.SI.CONJUNTO('Form kappa'!AA2:AA;">="1.4";'Form kappa'!AA2:AA;"<1.8")
+
+A9: Empresas Oro (κ≥1.8)
+B9: =CONTAR.SI('Form kappa'!AA2:AA;">="1.8")
+
+
+🔸 SECCIÓN 2: PROMEDIOS POR BLOQUE
+───────────────────────────────────────────────────────────────────
+
+A12: DIMENSIÓN
+B12: PROMEDIO
+C12: MÁXIMO
+
+A13: A - Estructura
+B13: =PROMEDIO(FILTER('Form kappa'!Z2:Z;'Form kappa'!Z2:Z<>""))
+C13: 12
+
+A14: B - Subjetividad
+B14: =PROMEDIO(FILTER('Form kappa'!AA2:AA;'Form kappa'!AA2:AA<>""))
+C14: 12
+
+A15: C - Visión
+B15: =PROMEDIO(FILTER('Form kappa'!AB2:AB;'Form kappa'!AB2:AB<>""))
+C15: 12
+
+A16: D - Fricción
+B16: =PROMEDIO(FILTER('Form kappa'!AC2:AC;'Form kappa'!AC2:AC<>""))
+C16: 25
+
+A17: R - Patrimonio Percibido
+B17: =PROMEDIO(FILTER('Form kappa'!AD2:AD;'Form kappa'!AD2:AD<>""))
+C17: 20
+
+A18: % Empresas con Datos Confiables
+B18: =CONTAR.SI('Form kappa'!AI2:AI;"✅*")/COUNTA('Form kappa'!B2:B)*100&"%"
+
+
+🔸 SECCIÓN 2B: ARQUETIPOS ORGANIZACIONALES
+───────────────────────────────────────────────────────────────────
+
+A20: ARQUETIPO
+B20: CANTIDAD
+
+A21: 🦄 Unicornio Caótico
+B21: =CONTAR.SI('Form kappa'!AK2:AK;"🦄*")
+
+A22: 🏛️ Institución Sólida
+B22: =CONTAR.SI('Form kappa'!AK2:AK;"🏛️*")
+
+A23: 🧟 Commodity Zombie
+B23: =CONTAR.SI('Form kappa'!AK2:AK;"🧟*")
+
+A24: 🎭 Artista Incomprendido
+B24: =CONTAR.SI('Form kappa'!AK2:AK;"🎭*")
+
+A25: 🐘 Elefante Blanco
+B25: =CONTAR.SI('Form kappa'!AK2:AK;"🐘*")
+
+
+🔸 SECCIÓN 3: MATRIZ 3×3 (MAPA DE CALOR SECTORIAL)
+───────────────────────────────────────────────────────────────────
+
+         C            D              E              F
+24   [VACÍO]      Sincronía      Simplicidad    Coherencia
+25   Estructura   [FÓRMULA D25]  [FÓRMULA E25]  [FÓRMULA F25]
+26   Subjetividad [FÓRMULA D26]  [FÓRMULA E26]  [FÓRMULA F26]
+27   Visión       [FÓRMULA D27]  [FÓRMULA E27]  [FÓRMULA F27]
+
+
+FÓRMULAS:
+
+D25: =PROMEDIO(FILTER('Form kappa'!H2:H;'Form kappa'!H2:H<>""))
+E25: =PROMEDIO(FILTER('Form kappa'!I2:I;'Form kappa'!I2:I<>""))
+F25: =PROMEDIO(FILTER('Form kappa'!J2:J;'Form kappa'!J2:J<>""))
+
+D26: =PROMEDIO(FILTER('Form kappa'!K2:K;'Form kappa'!K2:K<>""))
+E26: =PROMEDIO(FILTER('Form kappa'!L2:L;'Form kappa'!L2:L<>""))
+F26: =PROMEDIO(FILTER('Form kappa'!M2:M;'Form kappa'!M2:M<>""))
+
+D27: =PROMEDIO(FILTER('Form kappa'!N2:N;'Form kappa'!N2:N<>""))
+E27: =PROMEDIO(FILTER('Form kappa'!O2:O;'Form kappa'!O2:O<>""))
+F27: =PROMEDIO(FILTER('Form kappa'!P2:P;'Form kappa'!P2:P<>""))
+
+
+📌 FORMATO CONDICIONAL PARA MAPA DE CALOR:
+───────────────────────────────────────────────────────────────────
+1. Selecciona D25:F27
+2. Formato → Formato condicional
+3. Escala de colores:
+   - Mínimo (1): Rojo #EA4335
+   - Punto medio (3): Amarillo #FBBC04
+   - Máximo (5): Verde #34A853
+
+
+═══════════════════════════════════════════════════════════════════
+🎯 INTERPRETACIÓN DEL COEFICIENTE κ
+═══════════════════════════════════════════════════════════════════
+
+κ < 0        → ⛔ CRISIS: Fricción domina, organismo enfermo
+0 ≤ κ < 0.5  → 🟠 PRECARIO: Alto riesgo, baja vitalidad
+0.5 ≤ κ < 1  → ⚠️ ACEPTABLE: Equilibrio justo, vulnerable
+1 ≤ κ < 1.1  → ✅ EQUILIBRIO: Potencia = Fricción
+1.1 ≤ κ < 1.4 → 🥉 BRONCE: Organismo en Flujo
+1.4 ≤ κ < 1.8 → 🥈 PLATA: Potencia Identitaria
+κ ≥ 1.8      → 🥇 ORO: Soberanía Exportadora
+
+
+═══════════════════════════════════════════════════════════════════
+🧬 ARQUETIPOS ORGANIZACIONALES (Lectura Contextual)
+═══════════════════════════════════════════════════════════════════
+
+El κ alto NO siempre significa sostenibilidad. Analiza los BLOQUES para
+identificar el arquetipo y sus riesgos:
+
+
+🦄 UNICORNIO CAÓTICO (κ alto, A bajo, C alto, D bajo)
+───────────────────────────────────────────────────────────────────
+Perfil:
+  - Estructura < 8/15 (políticas difusas, organización informal)
+  - Visión ≥ 12/15 (producto disruptivo, reconocimiento de mercado)
+  - Fricción < 10/25 (decisiones rápidas, cero burocracia)
+  - κ ≥ 1.4 (Plata/Oro)
+
+Ejemplos: Startups pre-Series A, bandas musicales virales, colectivos 
+creativos, negocios informales de nicho, operaciones de contrabando.
+
+Riesgo de Sostenibilidad: ⚠️⚠️⚠️ ALTO
+  → Sin estructura, el éxito depende de individuos clave
+  → Rotación de personal desintegra el proyecto (ej: grupo de teatro)
+  → Escalabilidad limitada sin institucionalización
+  → κ puede colapsar cuando salen fundadores o se pierde momentum
+
+Recomendación:
+  🔧 INSTITUCIONALIZAR: Documentar procesos, crear roles, formalizar
+  📋 Prioridad: Aumentar A (Estructura) antes de escalar
+
+
+🏛️ INSTITUCIÓN SÓLIDA (κ alto, A alto, B alto, C alto, D bajo)
+───────────────────────────────────────────────────────────────────
+Perfil:
+  - Estructura ≥ 11/15 (políticas claras, transparencia)
+  - Subjetividad ≥ 11/15 (equipo motivado, orgullo de pertenencia)
+  - Visión ≥ 11/15 (impacto de mercado consistente)
+  - Fricción < 12/25 (burocracia controlada)
+  - κ ≥ 1.4 (Plata/Oro)
+
+Ejemplos: Empresas familiares de 2da/3ra generación, cooperativas 
+consolidadas, B-corps, organizaciones con propósito claro.
+
+Riesgo de Sostenibilidad: ✅ BAJO
+  → Procesos documentados permiten continuidad
+  → Equipo alineado con visión puede absorber cambios
+  → Estructura facilita escalamiento y sucesión
+
+Recomendación:
+  ✨ EXPANDIR: Este perfil está listo para internacionalización
+  🎯 Enfoque: Mantener cultura durante crecimiento
+
+
+🧟 COMMODITY ZOMBIE (κ bajo/medio, A medio, B bajo, C bajo, D alto)
+───────────────────────────────────────────────────────────────────
+Perfil:
+  - Estructura 7-10/15 (procesos burocráticos sin valor)
+  - Subjetividad < 8/15 (desmotivación, burnout)
+  - Visión < 9/15 (producto indiferenciado, competencia por precio)
+  - Fricción ≥ 15/25 (burocracia paralizante)
+  - κ < 1 (Crisis/Precario/Aceptable)
+
+Ejemplos: Pymes tradicionales sin innovación, empresas familiares 
+estancadas, organizaciones que sobreviven por inercia o protección 
+arancelaria.
+
+Riesgo de Sostenibilidad: ⚠️⚠️⚠️ CRÍTICO
+  → Sin diferenciación, cualquier competidor puede desplazarlos
+  → Equipo desmotivado genera alta rotación y sabotaje silencioso
+  → Burocracia interna consume recursos sin agregar valor
+
+Recomendación:
+  🚨 PIVOTEAR: Redefinir propuesta de valor (aumentar C)
+  🔥 Reducir fricción: Eliminar procesos, delegar decisiones
+  💡 Reactivar equipo: Escuchar burnout, co-crear visión
+
+
+🎭 ARTISTA INCOMPRENDIDO (κ bajo, A alto, B alto, C bajo, D bajo)
+───────────────────────────────────────────────────────────────────
+Perfil:
+  - Estructura ≥ 11/15 (procesos impecables, alta técnica)
+  - Subjetividad ≥ 11/15 (equipo apasionado, orgullo interno)
+  - Visión < 9/15 (mercado no reconoce valor, desconexión)
+  - Fricción < 12/25 (fluidez interna)
+  - κ < 1 (Aceptable/Precario)
+
+Ejemplos: Artesanos de alta calidad sin marketing, empresas técnicas 
+sin storytelling, productos sobrecalificados para el mercado objetivo
+(ej: la actriz del monólogo filosófico frente a adolescentes).
+
+Riesgo de Sostenibilidad: ⚠️⚠️ MEDIO
+  → Calidad no garantiza ventas sin conexión emocional con cliente
+  → Equipo frustra al no recibir reconocimiento externo
+  → Pueden quebrar a pesar de excelencia técnica
+
+Recomendación:
+  📢 COMUNICAR: Invertir en marketing, storytelling, branding
+  🎯 Reposicionar: Encontrar nicho que valore su diferencial
+  🔗 Co-crear: Involucrar clientes en rediseño de propuesta
+
+
+🐘 ELEFANTE BLANCO (κ bajo, A alto, B bajo, C bajo, D muy alto)
+───────────────────────────────────────────────────────────────────
+Perfil:
+  - Estructura ≥ 11/15 (procesos rígidos, sobrerregulación)
+  - Subjetividad < 8/15 (desmotivación, cinismo)
+  - Visión < 9/15 (sin propósito claro, inercia)
+  - Fricción ≥ 18/25 (burocracia extrema, parálisis)
+  - κ < 0.5 (Crisis/Precario)
+
+Ejemplos: Empresas públicas ineficientes, corporaciones burocratizadas,
+organizaciones con múltiples capas de aprobación, entidades que existen
+para justificar su propia existencia.
+
+Riesgo de Sostenibilidad: 💀 TERMINAL
+  → La estructura se volvió el fin, no el medio
+  → Sin visión ni motivación, el organismo está muerto en vida
+  → Solo sobrevive con subsidios o mercados cautivos
+
+Recomendación:
+  ⚡ REESTRUCTURAR: Eliminar el 50% de procesos, delegar poder
+  🎯 Redescubrir propósito: ¿Por qué existimos? ¿A quién servimos?
+  👥 Renovar liderazgo: Necesita sacudida cultural profunda
+
+
+═══════════════════════════════════════════════════════════════════
+⚠️ ALERTAS AUTOMÁTICAS (Preguntas Bloque D ≥ 4)
+═══════════════════════════════════════════════════════════════════
+
+P10 ≥ 4: Esquema Obstructor (burocracia frena)
+P11 ≥ 4: Parálisis por Desajuste (estrés desarticula)
+P12 ≥ 4: Silencio de Entropía (burnout crítico)
+P13 ≥ 4: Crisis de Identidad (ocultan origen)
+P14 ≥ 4: Trampa Commodity (competencia por precio)
+
+
+═══════════════════════════════════════════════════════════════════
+🎯 ENFOQUE DE INTERVENCIÓN SEGÚN ARQUETIPO
+═══════════════════════════════════════════════════════════════════
+
+Para empresas que buscan EXPANSIÓN SOSTENIBLE, prioriza:
+
+✅ CANDIDATOS IDEALES (Invertir Recursos):
+   → 🏛️ Institución Sólida: Lista para internacionalización
+      Intervención: Coaching estratégico, conexiones comerciales
+   
+   → 🦄 Unicornio Caótico + Disposición a Institucionalizar:
+      Intervención: Asesoría en formalización, gestión del crecimiento
+      Clave: Verificar si líderes están dispuestos a profesionalizarse
+
+⚠️ ACOMPAÑAMIENTO INTENSIVO (Requieren Transformación):
+   → 🎭 Artista Incomprendido: Excelencia técnica sin mercado
+      Intervención: Reposicionamiento, marketing, storytelling
+      Potencial: Alto si logran conectar con cliente correcto
+   
+   → 🧟 Commodity Zombie: Estancados en competencia por precio
+      Intervención: Pivoteo estratégico, innovación, diferenciación
+      Potencial: Medio, requiere liderazgo valiente
+
+🚫 DESCARTADOS (Riesgo Alto, ROI Bajo):
+   → 🐘 Elefante Blanco: Burocracia terminal
+      Sin disposición al cambio, es inviable
+   
+   → 🦄 Unicornio Caótico que rechaza estructura:
+      Éxito efímero, colapsará en el primer obstáculo
+
+
+═══════════════════════════════════════════════════════════════════
+📖 CASOS DE ESTUDIO: Lectura de "Letra Chica"
+═══════════════════════════════════════════════════════════════════
+
+CASO 1: "Dolores Cano - Empresa Test S.A.S."
+Perfil: A=8, B=8, C=15, D=9 → κ=2.44 (ORO)
+Arquetipo: 🦄 Unicornio Caótico
+
+Interpretación:
+• Producto altamente demandado (C=15), cero fricción (D=9)
+• Estructura informal (A=8), equipo no apasionado (B=8)
+• Posible: Startup pre-Series A, negocio de nicho informal, operación
+  ágil sin procesos documentados
+
+Pregunta clave para decidir inversión:
+"¿Los fundadores están dispuestos a contratar gerentes, documentar
+procesos y ceder control para escalar? Si NO → descartada"
+
+Riesgo temporal:
+El κ=2.44 es real HOY, pero puede colapsar en 6-12 meses si:
+  - Sale el fundador clave (dependencia de persona)
+  - Pierden momentum de mercado (moda pasajera)
+  - Competidor replicó su producto con mejor estructura
+
+Sostenibilidad proyectada: 12-18 meses sin intervención
+
+
+CASO 2: Grupo de Teatro Indisciplinado (Ejemplo del usuario)
+Perfil hipotético: A=4, B=7, C=14, D=8 → κ≈1.625 (PLATA)
+Arquetipo: 🦄 Unicornio Caótico
+
+Resultado real: Ganaron concurso → Se desintegraron en el viaje
+¿Por qué? Sin estructura (A=4), la química grupal no se sostuvo
+          Sin ensayos ni roles claros, el éxito dependió de talento
+          natural de 1 persona (la "abuela"). Salió ella → colapsó.
+
+
+CASO 3: Actriz del Monólogo (Ejemplo del usuario)
+Perfil hipotético: A=13, B=15, C=6, D=7 → κ≈3.0 (ORO técnico)
+Arquetipo: 🎭 Artista Incomprendido
+
+Resultado real: Técnicamente impecable → Público no conectó
+¿Por qué? Estructura impecable (ensayos), pasión alta, pero visión
+          desalineada con mercado objetivo. Filosofía ancestral
+          frente a adolescentes = desconexión.
+
+Intervención exitosa:
+  1. Mantener técnica (A) y pasión (B)
+  2. Reposicionar mensaje: Buscar público adulto culto, o
+  3. Adaptar narrativa: Usar referentes Gen-Z sin perder esencia
+
+
+═══════════════════════════════════════════════════════════════════
+📧 CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════════
+
+Proyecto: Coeficiente Kappa - Diacua Viva
+Investigador: Francisco Javier Valenzuela Forero
+Email: diacuaviva@gmail.com
+Fecha: Febrero 2026
+
+═══════════════════════════════════════════════════════════════════
+
+NOTA IMPORTANTE:
+El nombre de la hoja de respuestas es: 'Form kappa'
+Si tu hoja tiene otro nombre, reemplázalo en todas las fórmulas.
+
+═══════════════════════════════════════════════════════════════════
