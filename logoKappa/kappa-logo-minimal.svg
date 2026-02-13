@@ -1,0 +1,92 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="keyMinimal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A4D8C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00D9A3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- VERSIÓN MINIMALISTA - Énfasis en precisión científica -->
+  
+  <!-- κ (kappa) con trazo limpio -->
+  <path d="M 110,100 L 110,220" 
+        stroke="#0A4D8C" 
+        stroke-width="10" 
+        fill="none" 
+        stroke-linecap="square"/>
+  
+  <path d="M 110,140 L 160,100" 
+        stroke="#0A4D8C" 
+        stroke-width="8" 
+        fill="none" 
+        stroke-linecap="square"/>
+  
+  <path d="M 110,180 L 160,220" 
+        stroke="#0A4D8C" 
+        stroke-width="8" 
+        fill="none" 
+        stroke-linecap="square"/>
+  
+  <!-- Barra horizontal (shaft de la llave) -->
+  <rect x="110" y="155" width="150" height="10" 
+        fill="url(#keyMinimal)" 
+        rx="2"/>
+  
+  <!-- Dientes ADN (patrón binario limpio) -->
+  <rect x="265" y="145" width="6" height="25" fill="#0A4D8C"/>
+  <rect x="275" y="155" width="6" height="30" fill="#00D9A3"/>
+  <rect x="285" y="140" width="6" height="28" fill="#0A4D8C"/>
+  <rect x="295" y="157" width="6" height="33" fill="#00D9A3"/>
+  
+  <!-- Conectores ADN (doble hélice estilizada) -->
+  <path d="M 268,157 Q 275,165 278,162" 
+        stroke="#00D9A3" 
+        stroke-width="1.5" 
+        fill="none" 
+        opacity="0.4"/>
+  <path d="M 278,170 Q 285,155 288,153" 
+        stroke="#0A4D8C" 
+        stroke-width="1.5" 
+        fill="none" 
+        opacity="0.4"/>
+  
+  <!-- TEXTO con tipografía técnica -->
+  <text x="200" y="280" 
+        font-family="'Helvetica Neue', 'Arial', sans-serif" 
+        font-size="52" 
+        font-weight="700" 
+        fill="#0A4D8C" 
+        text-anchor="middle" 
+        letter-spacing="2">
+    KAPPA
+  </text>
+  
+  <!-- Coeficiente κ -->
+  <text x="200" y="315" 
+        font-family="'Times New Roman', serif" 
+        font-size="24" 
+        fill="#2D3748" 
+        text-anchor="middle">
+    Coeficiente κ
+  </text>
+  
+  <!-- Subtexto ADN -->
+  <text x="200" y="340" 
+        font-family="'Helvetica Neue', sans-serif" 
+        font-size="11" 
+        font-weight="500" 
+        fill="#2D3748" 
+        text-anchor="middle" 
+        letter-spacing="2" 
+        opacity="0.7">
+    ALTERNATIVAS DE DESARROLLO E INNOVACIÓN
+  </text>
+  
+  <!-- Grid científico de fondo (opcional) -->
+  <g opacity="0.1">
+    <line x1="100" y1="360" x2="300" y2="360" stroke="#0A4D8C" stroke-width="0.5"/>
+    <line x1="100" y1="370" x2="300" y2="370" stroke="#0A4D8C" stroke-width="0.5"/>
+    <line x1="180" y1="350" x2="180" y2="380" stroke="#0A4D8C" stroke-width="0.5"/>
+    <line x1="220" y1="350" x2="220" y2="380" stroke="#0A4D8C" stroke-width="0.5"/>
+  </g>
+</svg>

@@ -1,3 +1,4 @@
+// Landing Page - Coeficiente Kappa Empresarial
 'use client';
 
 import { useState } from 'react';
