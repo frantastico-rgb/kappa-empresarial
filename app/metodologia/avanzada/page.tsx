@@ -521,7 +521,7 @@ export default function MetodologiaPage() {
         <section className="max-w-3xl w-full text-center mt-8 mb-8 px-4">
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-[#00D9A3]/30">
             <p className="text-xl md:text-2xl text-white font-semibold leading-relaxed mb-6">
-              "La Matriz Kappa no solo mide, sino que impulsa la transformación."
+              &quot;La Matriz Kappa no solo mide, sino que impulsa la transformación.&quot;
             </p>
             <p className="text-lg text-white/80">
               Da el primer paso hacia una organización más fuerte, coherente y rentable.
