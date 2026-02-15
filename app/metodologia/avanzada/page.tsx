@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import KappaNavbar from "@/components/KappaNavbar";
+
 
 interface AccordionItem {
   q: string;
@@ -95,9 +95,21 @@ const filas = ["Estructura", "Subjetividad", "Visión"];
 const columnas = ["Sincronía", "Simplicidad", "Coherencia"];
 
 export default function MetodologiaPage() {
-  const [activeCell, setActiveCell] = useState<string | null>(null);
-  const [activeCard, setActiveCard] = useState<number | null>(null);
-  const [showForm, setShowForm] = useState(false);
+    const [activeCell, setActiveCell] = useState<string | null>(null);
+    const [activeCard, setActiveCard] = useState<number | null>(null);
+    const [showForm, setShowForm] = useState(false);
+
+    // Scroll automático al abrir el modal
+    React.useEffect(() => {
+      if (activeCell) {
+        setTimeout(() => {
+          const modal = document.getElementById('kappa-modal');
+          if (modal) {
+            modal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 100);
+      }
+    }, [activeCell]);
 
   // Colores de la Identidad Kappa
   const colores = {
@@ -182,7 +194,6 @@ export default function MetodologiaPage() {
 
   return (
     <>
-      <KappaNavbar />
       <main 
         style={{ background: `linear-gradient(135deg, ${colores.fondoOscuro} 0%, ${colores.grisCarbono} 100%)` }} 
         className="min-h-screen flex flex-col items-center justify-start pt-24 pb-12 px-2 md:px-4"
@@ -262,8 +273,8 @@ export default function MetodologiaPage() {
               </thead>
               <tbody>
                 {matrizData.map((row, i) => (
-                  <tr key={filas[i]}> 
-                    <th 
+                  <tr key={filas[i]}>
+                    <th
                       className="p-4 border-2 border-white/20 font-bold text-xl text-white"
                       style={{ background: `linear-gradient(135deg, ${colores.azulProfundo} 0%, ${colores.verdeEsmeralda} 100%)` }}
                     >
@@ -273,44 +284,17 @@ export default function MetodologiaPage() {
                       <td
                         key={`${i}-${j}`}
                         className="p-6 border-2 border-gray-200 text-4xl font-bold cursor-pointer relative transition-all duration-300 hover:shadow-xl group"
-                        style={{ 
+                        style={{
                           background: `linear-gradient(135deg, ${colores.verdeEsmeralda}20 0%, ${colores.azulProfundo}10 100%)`,
-                          color: colores.azulProfundo 
+                          color: colores.azulProfundo
                         }}
                         onClick={() => setActiveCell(`${i}-${j}`)}
                       >
                         <div className="flex flex-col items-center justify-center min-h-[100px]">
+                          <span className="font-bold text-base text-[#0A4D8C] mb-1">{cell.title}</span>
                           <span className="inline-block group-hover:scale-125 transition-transform duration-300">🔑</span>
                           <span className="text-xs font-normal mt-2 opacity-60 group-hover:opacity-100">Click para detalles</span>
                         </div>
-                        {activeCell === `${i}-${j}` && (
-                          <div 
-                            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" 
-                            onClick={() => setActiveCell(null)}
-                          >
-                            <div 
-                              className="relative bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-md text-left border-4 border-[#00D9A3]" 
-                              onClick={e => e.stopPropagation()}
-                            >
-                              <button
-                                className="absolute top-4 right-4 text-[#0A4D8C] hover:text-[#FF6B35] text-3xl font-bold p-2 bg-gray-100 rounded-full shadow-lg hover:shadow-xl transition-all"
-                                onClick={() => setActiveCell(null)}
-                                aria-label="Cerrar"
-                              >
-                                ×
-                              </button>
-                              <div className="mb-4 text-[#0A4D8C] font-bold text-2xl pr-12">
-                                {cell.title}
-                              </div>
-                              <div className="mb-4 text-gray-700 text-base leading-relaxed">
-                                {cell.desc}
-                              </div>
-                              <div className="text-[#00D9A3] text-sm italic bg-[#F7FAFC] p-3 rounded-lg">
-                                {cell.example}
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </td>
                     ))}
                   </tr>
@@ -322,7 +306,7 @@ export default function MetodologiaPage() {
           <div className="md:hidden space-y-4">
             {matrizData.map((row, i) => (
               <div key={filas[i]}>
-                <h3 
+                <h3
                   className="text-xl font-bold text-white p-3 rounded-lg mb-2"
                   style={{ background: `linear-gradient(135deg, ${colores.azulProfundo} 0%, ${colores.verdeEsmeralda} 100%)` }}
                 >
@@ -349,6 +333,53 @@ export default function MetodologiaPage() {
               </div>
             ))}
           </div>
+
+          {/* Modal de detalles para móvil y desktop */}
+          {activeCell && (() => {
+            const [i, j] = activeCell.split("-").map(Number);
+            const cell = matrizData[i][j];
+            return (
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-0 md:p-4"
+                onClick={() => setActiveCell(null)}
+              >
+                {/* Modal centrado para móvil y desktop */}
+                <div
+                  id="kappa-modal"
+                  className="relative bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full max-w-md text-left border-4 border-[#00D9A3] overflow-y-auto"
+                  style={{ maxHeight: '90vh' }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button
+                    className="absolute top-4 right-4 text-[#0A4D8C] hover:text-[#FF6B35] text-3xl font-bold p-2 bg-gray-100 rounded-full shadow-lg hover:shadow-xl transition-all"
+                    onClick={() => setActiveCell(null)}
+                    aria-label="Cerrar"
+                  >
+                    ×
+                  </button>
+                  <div className="mb-4 text-[#0A4D8C] font-bold text-2xl pr-12">
+                    {cell.title}
+                  </div>
+                  <div className="mb-4 text-gray-700 text-base leading-relaxed">
+                    {cell.desc}
+                  </div>
+                  <div className="text-[#00D9A3] text-sm italic bg-[#F7FAFC] p-3 rounded-lg">
+                    {cell.example}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+          /* Animación para el drawer */
+          <style jsx global>{`
+            @keyframes slide-up {
+              from { transform: translateY(100%); }
+              to { transform: translateY(0); }
+            }
+            .animate-slide-up {
+              animation: slide-up 0.3s cubic-bezier(0.4,0,0.2,1);
+            }
+          `}</style>
           <p className="mt-8 text-center text-gray-600 italic">
             Cada dimensión se evalúa mediante indicadores específicos validados científicamente
           </p>

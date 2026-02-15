@@ -300,7 +300,7 @@ export default function HomePage() {
           <div className="max-w-3xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-red-500/20 backdrop-blur-sm px-4 py-2 rounded-full text-sm mb-6 border border-red-500/30">
               <span className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></span>
-              Solo quedan 7 cupos para febrero 2026
+              Solo quedan 7 cupos para marzo 2026
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold mb-6">

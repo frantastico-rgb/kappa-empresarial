@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   // Content Security Policy (CSP)
   response.headers.set(
     'Content-Security-Policy',
-    "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'none';"
+    "default-src 'self'; img-src 'self' data:; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; frame-src 'self' https://docs.google.com; child-src 'self' https://docs.google.com; frame-ancestors 'none';"
   );
 
   // HSTS
