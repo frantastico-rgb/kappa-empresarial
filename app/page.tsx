@@ -330,9 +330,9 @@ export default function HomePage() {
               © 2026 Diacua Viva - Protocolo Coeficiente Kappa (κ)
             </div>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-white transition-colors">Metodología</a>
-              <a href="#" className="hover:text-white transition-colors">Casos</a>
-              <a href="#" className="hover:text-white transition-colors">Contacto</a>
+              <a href="/metodologia/avanzada" className="hover:text-white transition-colors">Metodología</a>
+              <a href="/metodologia/avanzada" className="hover:text-white transition-colors">Casos</a>
+              <a href="mailto:kappaempresarial@gmail.com" className="hover:text-white transition-colors">Contacto</a>
             </div>
           </div>
         </div>

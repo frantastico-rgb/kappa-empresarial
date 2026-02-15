@@ -38,3 +38,6 @@ next-env.d.ts
 
 # documentation reference (not versioned)
 /docs-referencia/
+
+# scripts locales no necesarios en producción
+/scripts/check-headers.ps1
