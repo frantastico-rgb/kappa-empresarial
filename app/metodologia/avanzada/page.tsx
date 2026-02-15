@@ -370,7 +370,7 @@ export default function MetodologiaPage() {
               </div>
             );
           })()}
-          /* Animación para el drawer */
+          {/* Animación para el drawer */}
           <style jsx global>{`
             @keyframes slide-up {
               from { transform: translateY(100%); }
